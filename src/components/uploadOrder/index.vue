@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import maps from './map'
-import dashboard from'./dashboard'
+import maps from './parts/map'
+import dashboard from'./parts/dashboard'
 export default {
     components:{maps,dashboard}
 }

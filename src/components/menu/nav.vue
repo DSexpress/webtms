@@ -2,6 +2,7 @@
 <div class="menu_wrap" v-show="show">
 <el-menu 
 class="el-menu-vertical-demo" 
+router
 @open="handleOpen" 
 @close="handleClose" 
 :collapse="isCollapse"  
@@ -12,15 +13,17 @@ active-text-color="#ffd04b">
     <i :class="[isCollapse?'el-icon-d-arrow-right':'el-icon-d-arrow-left']"></i>
     <span slot="title">logo</span>
   </el-menu-item>
+  <el-menu-item index="/">
+    <i class="el-icon-news"></i>
+      <span slot="title">基础数据</span>
+  </el-menu-item>
   <el-submenu index="1">
     <template slot="title">
       <i class="el-icon-menu"></i>
       <span>智能分单</span>
     </template>
     <el-menu-item-group>
-      <el-menu-item index="1-1">
-        <router-link :to="{path:'/upload'}">订单上传</router-link>
-      </el-menu-item>
+      <el-menu-item index="/upload">订单上传 </el-menu-item>
       <el-menu-item index="1-2">订单分配</el-menu-item>
     </el-menu-item-group>
   </el-submenu>

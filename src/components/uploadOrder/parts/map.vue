@@ -10,6 +10,7 @@
 
 <script>
 import bus from "@/assets/eventBus.js";
+import capitals from"./marker.js"
 export default {
   name: "HelloWorld",
   data() {
@@ -21,9 +22,10 @@ export default {
   methods: {
     renderMap() {
       this.map = new AMap.Map("container", {
+         zoom: 4,
         resizeEnable: true
       });
-      this.map.on("moveend", this.getCity);
+      // this.map.on("moveend", this.getCity);
     },
     getCity() {
       this.map.getCity(function(data) {
@@ -34,15 +36,41 @@ export default {
         }
       });
     },
+    //清楚地图上的操作痕迹
     clearMap() {
       bus.$emit("clear", "clearMap");
       this.map.clearMap();
+    },
+    // getMarkData(){
+    //  this.$http.get('./marker.json',(res)=>{
+    //     this.marker(res);
+    //   })
+    // },
+    marker() {
+      for (var i = 0; i < capitals.length; i += 1) {
+        var center = capitals[i].center;
+        var circleMarker = new AMap.CircleMarker({
+          center: center,
+          radius: 10 ,
+          strokeColor: "white",
+          strokeWeight: 2,
+          strokeOpacity: 0.5,
+          fillColor: "rgba(0,0,255,1)",
+          fillOpacity: 0.5,
+          zIndex: 10,
+          bubble: true,
+          cursor: "pointer",
+          clickable: true
+        });
+        circleMarker.setMap(this.map);
+      }
     }
   },
   mounted() {
     this.renderMap();
+    this.marker();
     bus.$on("show", data => {
-        console.log("导航到订单上传")
+      console.log("导航到订单上传");
     });
   }
 };
