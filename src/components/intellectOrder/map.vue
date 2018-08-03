@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import bus from "@/assets/eventBus.js"
 export default {
   name: "HelloWorld",
   data() {
@@ -47,11 +48,13 @@ export default {
       geolocation.getCurrentPosition();
     },
     clearMap() {
-      this.map.clearMap( );
+     bus.$emit("clear","clearMap")
+     this.map.clearMap();
     }
   },
   mounted() {
     this.renderMap();
+     bus.$on("show",(data)=>{})
   }
 };
 </script>

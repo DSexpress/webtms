@@ -1,15 +1,60 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import maps from '@/components/map'
-
+const index = () =>
+  import ('@/components/index');
+const maps = () =>
+  import ('@/components/intellectOrder/map');
+const upload = () =>
+  import ('@/components/uploadOrder/index'); //订单分配
+const login = () =>
+  import ('@/components/login');
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
+let router = new Router({
+  routes: [{
       path: '/',
-      name: 'maps',
-      component: maps
+      component: index,
+      meta: {
+        requiresAuth: true
+      },
+      children: [{
+          path: '',
+          name: 'maps',
+          component: maps,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        { //登陆模块
+          path: 'upload',
+          name: 'upload',
+          component: upload
+        }
+      ]
+    },
+
+    { //登陆模块
+      path: '/login',
+      name: 'login',
+      component: login
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  //to即将进入的目标路由对象，from当前导航正要离开的路由， next  :  下一步执行的函数钩子
+  if (to.path === '/login') {
+    next()
+  } // 如果即将进入登录路由，则直接放行
+  else { //进入的不是登录路由
+    if (to.meta.requiresAuth && !sessionStorage.getItem('accessToken')) {
+      next({
+        path: '/login'
+      })
+    }
+    //下一跳路由需要登录验证，并且还未登录，则路由定向到  登录路由
+    else {
+      next()
+    }
+  } //如果不需要登录验证，或者已经登录成功，则直接放行
+})
+export default router;
