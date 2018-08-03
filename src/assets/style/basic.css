@@ -16,4 +16,12 @@ a {
   text-decoration: none;
   color: white;
 }
+.title{
+  line-height: 48px;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+}
 
+ul {
+  list-style: none;
+}

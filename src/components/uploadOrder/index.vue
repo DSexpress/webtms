@@ -2,7 +2,7 @@
     <div class="dash_main">
         <dashboard></dashboard>
         <maps class="maps"></maps>
-        <div class="close-arrow"></div>
+       
     </div>
 </template>
 

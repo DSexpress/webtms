@@ -41,8 +41,6 @@ export default {
   }
 };
 </script>
-
-
 <style>
 .login_main {
   width: 100%;
@@ -51,6 +49,7 @@ export default {
   background-image: url("../assets/bg.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  text-align: center;
 }
 .login_wrap {
   width: 600px;

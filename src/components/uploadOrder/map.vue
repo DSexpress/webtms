@@ -3,6 +3,7 @@
     <div id="container"></div>
     <div class="float_wrap">
       <el-button type="primary" @click="clearMap()">销毁</el-button>
+      <div id="info"></div>
     </div>
   </div>
 </template>
@@ -20,8 +21,6 @@ export default {
   methods: {
     renderMap() {
       this.map = new AMap.Map("container", {
-        // zoom: 11, //级别
-        // center: [116.397428, 39.90923], //中心点坐标
         resizeEnable: true
       });
       this.map.on("moveend", this.getCity);
@@ -30,8 +29,8 @@ export default {
       this.map.getCity(function(data) {
         if (data["province"] && typeof data["province"] === "string") {
           console.log(data);
-          // document.getElementById("info").innerHTML =
-          //   "城市：" + (data["city"] || data["province"]);
+          document.getElementById("info").innerHTML =
+            "城市：" + (data["city"] || data["province"]);
         }
       });
     },
@@ -43,7 +42,7 @@ export default {
   mounted() {
     this.renderMap();
     bus.$on("show", data => {
-      alert(data);
+        console.log("导航到订单上传")
     });
   }
 };
@@ -66,6 +65,5 @@ export default {
   font-size: 12px;
   right: 10px;
   top: 20px;
-  line-height: 30px;
 }
 </style>

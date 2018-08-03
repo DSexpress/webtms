@@ -1,5 +1,5 @@
 <template>
-<div class="menu_wrap">
+<div class="menu_wrap" v-show="show">
 <el-menu 
 class="el-menu-vertical-demo" 
 @open="handleOpen" 
@@ -42,6 +42,7 @@ import bus from "@/assets/eventBus.js";
 export default {
   data() {
     return {
+      show:true,
       isCollapse: false
     };
   },
@@ -57,7 +58,11 @@ export default {
       bus.$emit("show", "Im from router");
     }
   },
-  mounted() {}
+  mounted() {
+    bus.$on('showNav',(data)=>{
+      this.show = data;
+    })
+  }
 };
 </script>
 
