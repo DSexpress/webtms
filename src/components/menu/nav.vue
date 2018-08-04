@@ -9,7 +9,7 @@ router
 background-color="#545c64"
 text-color="#fff"
 active-text-color="#ffd04b">  
- <el-menu-item index="5" @click="isCollapse=!isCollapse;sendMsg()">
+ <el-menu-item index=""  @click="isCollapse=!isCollapse;sendMsg()">
     <i :class="[isCollapse?'el-icon-d-arrow-right':'el-icon-d-arrow-left']"></i>
     <span slot="title">logo</span>
   </el-menu-item>
@@ -24,10 +24,10 @@ active-text-color="#ffd04b">
     </template>
     <el-menu-item-group>
       <el-menu-item index="/upload">订单上传 </el-menu-item>
-      <el-menu-item index="1-2">订单分配</el-menu-item>
+      <el-menu-item index="/intellectOrder">订单分配</el-menu-item>
     </el-menu-item-group>
   </el-submenu>
-  <el-menu-item index="2">
+  <el-menu-item index="/statusOrder">
     <i class="el-icon-document"></i>
     <span slot="title">订单状态</span>
   </el-menu-item>

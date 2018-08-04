@@ -1,4 +1,5 @@
 <template>
+<!-- 主路由载体 -->
     <div class="app_main">
       <div class="app_main_div1">
          <menus style="width:100%"></menus>
@@ -10,7 +11,7 @@
 </template>
 
 <script>
-import menus from './menu/nav'
+import menus from '../menu/nav'
 export default {
   components:{menus}
 };

@@ -1,6 +1,6 @@
 <template>
     <div class="dash_main">
-        <dashboard></dashboard>
+         <dashboard></dashboard>
         <maps class="maps"></maps>
     </div>
 </template>
@@ -9,6 +9,7 @@
 import maps from "./parts/map";
 import dashboard from "./parts/dashboard";
 export default {
+  name: "intellectOrder",
   components: { maps, dashboard }
 };
 </script>

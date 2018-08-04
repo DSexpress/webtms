@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 const index = () =>
-  import ('@/components/index');
+  import ('@/components/index/index');
 const maps = () =>
-  import ('@/components/intellectOrder/map');
+  import ('@/components/index/map');
+const statusOrder = () =>
+  import ('@/components/statusOrder/index.vue'); //智能分单
+const intellectOrder = () =>
+  import ('@/components/intellectOrder/index.vue'); //智能分单
 const upload = () =>
   import ('@/components/uploadOrder/index'); //订单分配
 const login = () =>
@@ -25,10 +29,20 @@ let router = new Router({
             requiresAuth: true
           }
         },
-        { //登陆模块
+        { //订单上传
           path: 'upload',
           name: 'upload',
           component: upload
+        },
+        { //智能分单
+          path: 'intellectOrder',
+          name: 'intellectOrder',
+          component: intellectOrder
+        },
+        { //定单状态
+          path: 'statusOrder',
+          name: 'statusOrder',
+          component: statusOrder
         }
       ]
     },

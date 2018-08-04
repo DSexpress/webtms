@@ -3,7 +3,8 @@
   margin: 0;
 }
 
-html,body{
+html,
+body {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -16,7 +17,8 @@ a {
   text-decoration: none;
   color: white;
 }
-.title{
+
+.title {
   line-height: 48px;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box;
@@ -25,9 +27,41 @@ a {
 ul {
   list-style: none;
 }
-.right{
+
+.right {
   float: right;
 }
-.left{
+
+.left {
   float: left;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.table thead tr td,
+.table thead tr th ,
+.table tbody tr td{
+  text-align: center;
+  color: #000;
+  font-size: 14px;
+  background: white;
+  word-break: break-all;
+}
+
+.table tr td,
+.table tr th {
+  text-align: center;
+  height: 34px;
+  padding: 0 5px;
+  border: 1px solid #ebeef5;
+  color: #ddd;
+  font-size: 13px;
+  word-break: break-all;
+}
+.table tbody tr:hover{
+  background: whitesmoke;
 }
