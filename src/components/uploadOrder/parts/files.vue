@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import capitals from"./marker.js"
+import bus from "@/assets/eventBus.js";
 export default {
   methods: {
     onChange(event) {
@@ -15,6 +17,7 @@ export default {
         var fd = new FormData();
         fd.append("file", event.target.files[0]);
         // fd.append("systemId", 2);
+        bus.$emit("forMark",capitals)
       }
     },
     dragleave() {

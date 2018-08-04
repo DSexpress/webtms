@@ -4,7 +4,7 @@
         <div class="work_section">
             <div class="title"><i class="el-icon-document"></i>订单列表</div>
               <ul class="order_list">
-                <li class="order_item"><i class="el-icon-tickets"></i>订单图层1</li>
+                <li @click="mapGetData()" class="order_item"><i class="el-icon-tickets"></i>订单图层1</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>订单图层2</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>订单图层3</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>订单图层4</li>
@@ -26,6 +26,7 @@
 import bus from "@/assets/eventBus.js";
 import overlay from "@/components/common/overlay"
 import files from "./files"
+import capitals from"./marker.js"
 export default {
   data() {
     return {
@@ -37,6 +38,9 @@ export default {
   methods: {
     hide() {
       bus.$emit("showNav", this.hidden);
+    },
+    mapGetData(){
+       bus.$emit("forMark",capitals)
     }
   }
 };
