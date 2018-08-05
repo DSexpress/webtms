@@ -4,7 +4,7 @@
     <div class="float_wrap">
       <el-button type="primary" @click="clearMap()">销毁</el-button>
       <div class="readArea">
-        {{newArr}}
+        {{adds}}
       </div>
     </div>
   </div>
@@ -13,13 +13,16 @@
 <script>
 import bus from "@/assets/eventBus.js";
 import addsArr from "./adds.js";
+import dataArr from "./json.js";
 export default {
   name: "HelloWorld",
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
       map: {},
-      newArr: addsArr
+      newArr: addsArr,
+      adds:[]
+      
     };
   },
   methods: {
@@ -32,6 +35,23 @@ export default {
       this.map.on("moveend", this.getCity);
     },
     geocoders() {
+      var that = this;
+      var geocoder = new AMap.Geocoder({
+        city: "全国", //城市，默认：“全国”
+        radius: 300 //范围，默认：500
+      });
+       that.adds=[];
+     dataArr.forEach((element, index) => {
+        geocoder.getLocation(element.address, function(status, result) {
+          if (status === "complete" && result.info === "OK") {
+            console.log(result);
+            element.center=[result.geocodes[0].location.lng,result.geocodes[0].location.lat]
+            that.adds.push(element)
+          }
+        });
+      });
+    },
+    massMarker() {
       var that = this;
       var mass = new AMap.MassMarks(that.newArr, {
         opacity: 0.8,
@@ -58,6 +78,7 @@ export default {
   mounted() {
     this.renderMap();
     this.geocoders();
+    this.massMarker();
     bus.$on("show", data => {});
   }
 };

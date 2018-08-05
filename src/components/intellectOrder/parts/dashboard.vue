@@ -10,7 +10,6 @@
                 <li class="order_item"><i class="el-icon-tickets"></i>划区图层4</li>
             </ul>
         </div>
-         <el-button class="upload_btn" @click="close=true" type="primary">上传订单<i class="el-icon-upload el-icon--right"></i></el-button>
       </div>
       <div class="close-arrow" 
         :class="{on:!hidden}" 

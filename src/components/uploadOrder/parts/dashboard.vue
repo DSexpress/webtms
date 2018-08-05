@@ -2,7 +2,7 @@
     <div class="work_main">
       <div class="work_wrap" v-show="hidden">
         <div class="work_section">
-            <div class="title"><i class="el-icon-document"></i>订单列表</div>
+            <div class="title"><i class="el-icon-document"></i>订单列表 <i  @click="close=true" class="el-icon-upload right" style="margin-top:15px; cursor: pointer;"></i></div>
               <ul class="order_list">
                 <li @click="mapGetData()" class="order_item"><i class="el-icon-tickets"></i>订单图层1</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>订单图层2</li>
@@ -10,7 +10,7 @@
                 <li class="order_item"><i class="el-icon-tickets"></i>订单图层4</li>
             </ul>
         </div>
-         <el-button class="upload_btn" @click="close=true" type="primary">上传订单<i class="el-icon-upload el-icon--right"></i></el-button>
+         <!-- <el-button class="upload_btn" @click="close=true" type="primary">上传订单</el-button> -->
       </div>
       <div class="close-arrow" 
         :class="{on:!hidden}" 

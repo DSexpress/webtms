@@ -2,8 +2,8 @@
     <div class="table_main">
         <h3 class="order_title">订单状态类表明细</h3>
         <div class="table_wrap">
-        <table class="table">
-         <thead>
+          <table class="table">
+            <thead>
              <tr>
                 <td width="28px">序号</td>
                 <td width="20%">订单号</td>
@@ -13,17 +13,17 @@
                 <td  width="30%">操作</td>
              </tr>
             </thead>
-            </table>
+          </table>
             <div class="table_contebt">
              <table class="table">
                 <tbody>
                     <tr v-for="(item,index) in dataArr" :key="index">
-                        <td width="28px">{{index+1}}</td>
-                        <td width="20%">201808021722{{index}}</td>
-                        <td width="10%"></td>
-                        <td>{{item.name}}</td>
-                        <td width="10%"></td>
-                        <td width="30%">
+                      <td width="28px">{{index+1}}</td>
+                      <td width="20%">201808021722{{index}}</td>
+                      <td width="10%"></td>
+                      <td>{{item.name}}</td>
+                      <td width="10%"></td>
+                      <td width="30%">
                          <el-radio-group v-model="item.style" size="mini">
                             <el-radio-button label="0">已签收</el-radio-button>
                             <el-radio-button label="1" >运输中</el-radio-button>
