@@ -27,7 +27,8 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      map: {}
+      map: {},
+      mapData: this.data
     };
   },
   props: ["data"],
@@ -40,6 +41,7 @@ export default {
       });
     },
     massMarker() {
+      var that = this;
       var style = [
         {
           url: "https://a.amap.com/jsapi_demos/static/images/mass0.png",
@@ -57,21 +59,27 @@ export default {
           size: new AMap.Size(11, 11)
         }
       ];
-      var mass = new AMap.MassMarks(this.data, {
+      var mass = new AMap.MassMarks(that.data, {
         opacity: 0.8,
         zIndex: 111,
         cursor: "pointer",
         style: style
       });
-      mass.setMap(this.map);
+      mass.setMap(that.map);
     }
   },
   mounted() {
     this.renderMap();
-    this.$nextTick(() => {
-      this.massMarker();
-    });
     bus.$on("show", data => {});
+  },
+  watch: {
+    'data': {
+      handler: function(val, oldVal) {
+        console.log(111)
+        this.massMarker();
+      },
+      deep: true
+    }
   }
 };
 </script>

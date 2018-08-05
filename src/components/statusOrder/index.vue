@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import citys from "./parts/orderData.js";
 import maps from "./parts/map";
 import order_table from "./parts/orderTable";
 export default {
@@ -23,10 +22,21 @@ export default {
     return {
       dataArr: [],
       value3: true,
-      dataArr:citys
+      dataArr:[]
     };
   },
-  components: { maps, order_table }
+  components: { maps, order_table },
+  created(){
+    this.mapGetData();
+  },
+  methods:{
+    mapGetData() {//点击划区列表，获取数据，marker在地图上
+      this.$http.get("/tms/status").then(res => {
+        console.log(res.data)
+        this.dataArr = res.data;
+      });
+    },
+  }
 };
 </script>
 

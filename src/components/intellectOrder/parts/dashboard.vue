@@ -4,7 +4,7 @@
         <div class="work_section">
             <div class="title"><i class="el-icon-document"></i>划区订单列表</div>
               <ul class="order_list">
-                <li class="order_item"><i class="el-icon-tickets"></i>划区图层1</li>
+                <li class="order_item" @click="mapGetData()"><i class="el-icon-tickets"></i>划区图层1</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>划区图层2</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>划区图层3</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>划区图层4</li>
@@ -28,6 +28,12 @@ export default {
     };
   },
   methods: {
+     mapGetData() {//点击划区列表，获取数据，marker在地图上
+      this.$http.get("/tms/neworder").then(res => {
+        console.log(res.data)
+        bus.$emit("getData", res.data);
+      });
+    },
     hide() {
       bus.$emit("showNav", this.hidden);
     }

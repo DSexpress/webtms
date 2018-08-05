@@ -68,7 +68,15 @@ export default {
     handleCurrentChange() {}
   },
   mounted() {
-    this.spliceArr();
+    // this.spliceArr();
+  },
+   watch: {
+    'data': {
+      handler: function(val, oldVal) {
+       this.spliceArr();
+      },
+      deep: true
+    }
   }
 };
 </script>

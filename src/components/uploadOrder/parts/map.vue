@@ -14,7 +14,6 @@
 
 <script>
 import bus from "@/assets/eventBus.js";
-import markArr from "./marker";
 import overlay from "@/components/common/overlay"
 export default {
   name: "HelloWorld",

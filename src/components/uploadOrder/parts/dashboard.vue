@@ -24,23 +24,25 @@
 </template>
 <script>
 import bus from "@/assets/eventBus.js";
-import overlay from "@/components/common/overlay"
-import files from "./files"
-import capitals from"./marker.js"
+import overlay from "@/components/common/overlay";
+import files from "./files";
 export default {
   data() {
     return {
       hidden: true,
-      close:false
+      close: false
     };
   },
-  components:{overlay,files},
+  components: { overlay, files },
   methods: {
     hide() {
       bus.$emit("showNav", this.hidden);
     },
-    mapGetData(){
-       bus.$emit("forMark",capitals)
+    mapGetData() {
+      this.$http.get("/tms/order").then(res => {
+        console.log(res.data)
+        bus.$emit("forMark", res.data);
+      });
     }
   }
 };
