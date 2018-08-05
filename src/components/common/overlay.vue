@@ -1,6 +1,6 @@
 <template>
   <transition name='fade'>
-    <div  id="overlay" class="overlay_main" v-show="close">
+    <div   class="overlay_main overlay" v-show="close">
       <div class="overlay_title">
         <span>{{title}}</span>
         <i class="el-icon-close right" title="关闭" @click="switchs();changeSatus()"></i>
@@ -25,20 +25,23 @@ export default {
       this.$emit("changeSatus", false); //触发自定义事件
     },
     move() {
-      overlay.onmousedown = function(e) {
-        var x = e.clientX;
-        var y = e.clientY;
-        var left = overlay.offsetLeft;
-        var top = overlay.offsetTop;
-        overlay.onmousemove = function(e) {
-          overlay.style.left = e.clientX - (x - left) + "px";
-          overlay.style.top = e.clientY - (y - top) + "px";
+      var overlay = document.getElementsByClassName("overlay");
+      for (let i = 0; i < overlay.length; i++) {
+        overlay[i].onmousedown = function(e) {
+          console.log(11);
+          var x = e.clientX;
+          var y = e.clientY;
+          var left = overlay[i].offsetLeft;
+          var top = overlay[i].offsetTop;
+          overlay[i].onmousemove = function(e) {
+            overlay[i].style.left = e.clientX - (x - left) + "px";
+            overlay[i].style.top = e.clientY - (y - top) + "px";
+          };
         };
-      };
-
-      overlay.onmouseup = function(e) {
-        overlay.onmousemove = null;
-      };
+        overlay[i].onmouseup = function(e) {
+          overlay[i].onmousemove = null;
+        };
+      }
     }
   },
   mounted() {
