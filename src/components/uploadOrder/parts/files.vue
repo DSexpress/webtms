@@ -11,18 +11,27 @@
 import bus from "@/assets/eventBus.js";
 export default {
   methods: {
+    uploadFiles(data) {
+      this.$http.get("/tms/order").then(res => {
+        bus.$emit("freshOrderList", 'runing');
+        this.$notify({
+          title: "提示",
+          message: "上传成功！",
+          duration: 1500,
+          type: "success"
+        });
+      });
+    },
     onChange(event) {
       if (event.target.files[0]) {
         var fd = new FormData();
         fd.append("file", event.target.files[0]);
         // fd.append("systemId", 2);
-       this.$http.get("/tms/order").then(res => {
-        console.log(res.data)
-        bus.$emit("forMark", res.data);
-      });
+        this.uploadFiles(fd);
       }
     },
     dragleave() {
+      var that = this;
       drag_wrap.addEventListener("dragleave", function(e) {
         e.preventDefault();
       });
@@ -34,14 +43,16 @@ export default {
       });
     },
     drop() {
+      var that = this;
       drag_wrap.addEventListener("drop", function(e) {
         e.preventDefault();
-        alert(11)
-        console.log(e.dataTransfer.files);
         if (e.dataTransfer.files.length) {
-            e.dataTransfer.files.forEach((item,index)=>{
-                //请求,上传多个文件
-            })
+          e.dataTransfer.files;
+          for (const item in e.dataTransfer.files) {
+            var fd = new FormData();
+            fd.append("file", e.dataTransfer.files[item]);
+            that.uploadFiles(fd);
+          }
         }
       });
     }

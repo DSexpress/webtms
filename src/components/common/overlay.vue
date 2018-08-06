@@ -61,7 +61,7 @@ export default {
   padding: 14px;
   min-width: 280px;
   min-height: 120px;
-  z-index: 10001;
+  z-index: 109;
 }
 .el-icon-close {
   cursor: pointer;

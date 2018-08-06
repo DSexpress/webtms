@@ -72,7 +72,7 @@ export default {
   width: 28px;
   height: 43px;
   margin-top: -21px;
-  z-index: 5002;
+  z-index: 102;
   cursor: pointer;
   background: transparent url(../../../assets/icon_close.png) no-repeat 0 0;
 }
