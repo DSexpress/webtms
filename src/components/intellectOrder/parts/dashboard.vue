@@ -1,7 +1,7 @@
 <template>
     <div class="work_main">
       <div class="work_wrap" v-show="hidden">
-        <div class="work_section">
+        <div class="work_section work_section_status">
             <div class="title"><i class="el-icon-document"></i>划区订单列表</div>
               <ul class="order_list">
                 <li class="order_item" @click="mapGetData()"><i class="el-icon-tickets"></i>划区图层1</li>
@@ -24,13 +24,14 @@ export default {
   data() {
     return {
       hidden: true,
-      close:false
+      close: false
     };
   },
   methods: {
-     mapGetData() {//点击划区列表，获取数据，marker在地图上
+    mapGetData() {
+      //点击划区列表，获取数据，marker在地图上
       this.$http.get("/tms/neworder").then(res => {
-        console.log(res.data)
+        console.log(res.data);
         bus.$emit("getData", res.data);
       });
     },
@@ -52,6 +53,8 @@ export default {
   height: 94vh;
   overflow: auto;
   box-sizing: border-box;
+}
+.work_section_status {
   padding: 0 3%;
 }
 .work_wrap {

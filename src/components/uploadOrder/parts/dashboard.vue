@@ -7,22 +7,30 @@
               <i @click="close=true" class="el-icon-upload right" style="margin-top:15px; cursor: pointer;"></i>
             </div>
             <div class="listWrap">
-              <ul class="order_list"  v-show="!showItem">
+              <!-- orderFiles -->
+              <ul class="order_list files_list"  v-show="!showItem">
                 <li @click="mapGetData();showItem=true;" class="order_item"><i class="el-icon-tickets"></i>订单图层1</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>订单图层2</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>订单图层3</li>
                 <li class="order_item"><i class="el-icon-tickets"></i>订单图层4</li>
               </ul>
+              <!-- orderList -->
              <div class="listItem" v-show="showItem">
-              <h4 @click="showItem=false">
-                <i class="el-icon-back"></i>订单批次              
+              <h4 @click="showItem=false;showDetail=false">
+                <i class="el-icon-back"></i>订单图层1              
               </h4>
                <ul class="order_list_detail" >
-                  <li class="order_item"><i class="el-icon-tickets"></i>订单图层1</li>
-                  <li class="order_item"><i class="el-icon-tickets"></i>订单图层2</li>
-                  <li class="order_item"><i class="el-icon-tickets"></i>订单图层3</li>
-                  <li class="order_item"><i class="el-icon-tickets"></i>订单图层4</li>
+                  <li class="order_item" @click="showDetail=true"><i class="el-icon-tickets"></i>订单</li>
+                  <li class="order_item"><i class="el-icon-tickets"></i>订单</li>
+                  <li class="order_item"><i class="el-icon-tickets"></i>订单</li>
+                  <li class="order_item"><i class="el-icon-tickets"></i>订单</li>
                 </ul>
+             </div>
+             <div class="order_detail_wrap" v-show="showDetail">
+               <p>订单详情</p>
+                <p>订单详情</p>
+                 <p>订单详情</p>
+                  <p>订单详情</p>
              </div>
             </div>             
         </div>
@@ -48,6 +56,7 @@ export default {
       hidden: true,
       close: false,
       showItem:false,
+      showDetail:false,
     };
   },
   components: { overlay, files },
@@ -88,6 +97,10 @@ export default {
 </script>
 
 <style>
+.title{
+  box-sizing: border-box;
+  padding: 0 3%;
+}
 .work_main {
   height: 100%;
   background-color: white;
@@ -98,7 +111,7 @@ export default {
   height: 100vh;
   overflow: auto;
   box-sizing: border-box;
-  padding: 0 3%;
+  /* padding: 0 3%; */
 }
 .work_wrap {
   height: 100%;
@@ -128,7 +141,9 @@ export default {
   height: 43px;
   background: transparent url(../../../assets/icon_open.png) no-repeat 0 0;
 }
-.order_list{
+.files_list,.listItem{
+  box-sizing: border-box;
+  padding: 0 3%;
   overflow: auto;
   flex: 1;
   height: 100%;
@@ -141,11 +156,16 @@ export default {
 .listWrap{
   display: flex;
   flex-direction: column;
-  height: 92vh;
+  height: 86vh;
 }
-.listItem{
+.order_list_detail .order_item{
+  padding-top: 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.order_detail_wrap{
+  height: 45%;
   overflow: auto;
-  flex: 1;
-  height: 100%;
+  border-top: 1px solid slategray;
 }
 </style>
