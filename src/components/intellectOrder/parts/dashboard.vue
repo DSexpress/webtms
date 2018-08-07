@@ -86,8 +86,12 @@ export default {
   background: transparent url(../../../assets/icon_open.png) no-repeat 0 0;
 }
 .order_list li {
-  padding-top: 16px;
+  line-height: 38px;
   font-size: 14px;
   cursor: pointer;
+}
+.order_list li:hover{
+  background-color: #545c64;
+  color: white;
 }
 </style>

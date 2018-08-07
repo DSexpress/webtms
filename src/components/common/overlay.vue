@@ -62,6 +62,8 @@ export default {
   min-width: 280px;
   min-height: 120px;
   z-index: 109;
+  border-radius: 4px;
+   box-shadow: 5px 5px 10px #DBDBDB;
 }
 .el-icon-close {
   cursor: pointer;

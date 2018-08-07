@@ -6,11 +6,11 @@
             <thead>
              <tr>
                 <td width="28px">序号</td>
-                <td width="20%">订单号</td>
-                <td width="10%">货运司机</td>
-                <td>地点</td>
-                <td width="10%">预计到达时间</td>
-                <td  width="30%">操作</td>
+                <td width="180px">订单号</td>
+                <td width="120px">货运司机</td>
+                <td width="220px">地点</td>
+                <td width="120px">预计到达时间</td>
+                <td>操作</td>
              </tr>
             </thead>
           </table>
@@ -19,11 +19,11 @@
                 <tbody>
                     <tr v-for="(item,index) in dataArr" :key="index">
                       <td width="28px">{{index+1}}</td>
-                      <td width="20%">201808021722{{index}}</td>
-                      <td width="10%"></td>
-                      <td>{{item.name}}</td>
-                      <td width="10%"></td>
-                      <td width="30%">
+                      <td width="180px">201808021722{{index}}</td>
+                      <td width="120px"></td>
+                      <td  width="220px">{{item.name}}</td>
+                      <td width="120px"></td>
+                      <td>
                          <el-radio-group v-model="item.style" size="mini">
                             <el-radio-button label="0">已签收</el-radio-button>
                             <el-radio-button label="1" >运输中</el-radio-button>
@@ -35,15 +35,18 @@
              </table>
             </div>
         </div>
+       <div class="pag">
         <el-pagination
+         background
          @size-change="handleSizeChange"
          @current-change="handleCurrentChange"
          :current-page="currentPage"
-         :page-sizes="[100, 200, 300, 400]"
-         :page-size="100"
+         :page-sizes="[10, 20, 30, 40]"
+         :page-size="10"
          layout="total, sizes, prev, pager, next, jumper"
-         :total="400">
+         :total="100">
         </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -70,10 +73,10 @@ export default {
   mounted() {
     // this.spliceArr();
   },
-   watch: {
-    'data': {
+  watch: {
+    data: {
       handler: function(val, oldVal) {
-       this.spliceArr();
+        this.spliceArr();
       },
       deep: true
     }
@@ -100,5 +103,8 @@ export default {
 .table_contebt {
   max-height: 400px;
   overflow: auto;
+}
+.pag {
+  margin-top: 18px;
 }
 </style>

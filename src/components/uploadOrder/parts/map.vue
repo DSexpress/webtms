@@ -1,12 +1,15 @@
 <template>
   <div class="map_wrap">
-    <div id="container"></div>
+    <div id="container">
+       <div class="tips" :style="{top:tipPos.top+'px',left:tipPos.left+'px'}" v-show="showTips">{{tipPos.content}}</div>
+    </div>
     <div class="float_wrap" v-show="markArr.length > 0&&showTool">
       <el-button type="primary" @click="ellipseEditors(1)">编辑范围</el-button>
       <el-button type="primary" @click="ellipseEditors(2)">确认范围</el-button>
       <div id="info"></div>
     </div>
-     <overlay :close.sync="close" title="区域划分">
+    <!-- 编辑划区 -->
+      <overlay :close.sync="close" title="区域划分">
         <div class="">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="订单名称">
@@ -48,8 +51,8 @@
               <el-input type="textarea" v-model="form.desc"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" >提交划区</el-button>
-              <el-button>取消</el-button>
+              <el-button type="primary" @click="confirmArea()">提交划区</el-button>
+              <el-button @click="close=false;">返回</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -65,6 +68,12 @@ export default {
   data() {
     return {
       close: false,
+      showTips:false,
+      tipPos:{
+        left:0,
+        top:0,
+        content:'订单地址'
+      },
       map: {},
       markArr: [],
       showTool: false, //控制tool显示
@@ -114,6 +123,7 @@ export default {
           clickable: true
         });
         this.circleMarker.setMap(this.map);
+        this.clickCrilce();
       }
     },
     // 点击地图获取初步画圆的中心点
@@ -140,7 +150,7 @@ export default {
       } else {
         this.close = true;
         that.ellipseEditor.close();
-        that.confirmArea();
+        // that.confirmArea();
       }
     },
     confirmArea() {
@@ -155,6 +165,7 @@ export default {
           that.querys.push(item);
         }
       });
+      // 此处post请求，保存that.querys,成功之后之后，重新绘制地图，失败清除querys，在最近的椭圆重新划区
       this.remove(that.markArr, that.querys);
       // this.map.clearMap();
       console.log(that.querys);
@@ -191,10 +202,27 @@ export default {
           }
         });
       });
+    },
+    // 点击圆点
+    clickCrilce(){
+      var that =this;
+      that.circleMarker.on('mouseover',function (e) {
+          console.log(e);
+          that.showTips = true;
+          that.tipPos.left = e.pixel.x+12;
+          that.tipPos.top = e.pixel.y-14;
+      })
+       that.circleMarker.on('mouseout',function (e) {
+          console.log(e);
+          that.showTips = false;
+      })
     }
   },
   mounted() {
     bus.$on("forMark", data => {
+      //请求数据时，想清楚地图上的标记
+      this.markArr=[];
+      this.map.clearMap();
       this.markArr = data;
       this.marker(this.markArr, "red");
     });
@@ -217,6 +245,7 @@ export default {
 #container {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 .float_wrap {
   padding-left: 10px;
@@ -225,5 +254,23 @@ export default {
   font-size: 12px;
   right: 10px;
   top: 20px;
+}
+.tips{
+  min-width: 180px;;
+  max-width: 240px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgb(84, 92, 100);
+  z-index: 100;
+  font-size: 12px;
+  text-align: center;
+  color: aliceblue;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>

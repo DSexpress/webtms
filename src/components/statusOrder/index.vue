@@ -10,7 +10,7 @@
             active-text="图"
             inactive-text="表">
         </el-switch>
-    </div>
+        </div>
     </div>
 </template>
 

@@ -27,10 +27,10 @@
                 </ul>
              </div>
              <div class="order_detail_wrap" v-show="showDetail">
-               <p>订单详情</p>
-                <p>订单详情</p>
-                 <p>订单详情</p>
-                  <p>订单详情</p>
+               <p><span>所在订单：</span>订单图层1</p>
+               <p><span>区块名称：</span>无区划</p>
+               <p><span>经纬度：</span></p>
+               <p>订单地址：</p>
              </div>
             </div>             
         </div>
@@ -52,11 +52,11 @@ import files from "./files";
 export default {
   data() {
     return {
-      orderList:[],
+      orderList: [],
       hidden: true,
       close: false,
-      showItem:false,
-      showDetail:false,
+      showItem: false,
+      showDetail: false
     };
   },
   components: { overlay, files },
@@ -64,40 +64,41 @@ export default {
     hide() {
       bus.$emit("showNav", this.hidden);
     },
-    getOrderList(){
-      this.$http.get('TMS/jar/nanme').then(res=>{
-        if (res) {
-          this.orderList=res
-        }
-      }).catch(erro=>{
-        this.$notify({
-          title: "提示",
-          message: "未知异常！",
-          duration: 1500,
-          type: "error"
+    getOrderList() {
+      this.$http
+        .get("TMS/jar/nanme")
+        .then(res => {
+          if (res) {
+            this.orderList = res;
+          }
+        })
+        .catch(erro => {
+          this.$notify({
+            title: "提示",
+            message: "未知异常！",
+            duration: 1500,
+            type: "error"
+          });
         });
-      })
     },
     mapGetData() {
       this.$http.get("/tms/order").then(res => {
-        console.log(res.data)
+        console.log(res.data);
         bus.$emit("forMark", res.data);
       });
     }
   },
-  created(){
+  created() {
     this.getOrderList();
   },
-  mounted(){
-    bus.$on("freshOrderList",(data)=>{
-
-    })
+  mounted() {
+    bus.$on("freshOrderList", data => {});
   }
 };
 </script>
 
 <style>
-.title{
+.title {
   box-sizing: border-box;
   padding: 0 3%;
 }
@@ -141,7 +142,8 @@ export default {
   height: 43px;
   background: transparent url(../../../assets/icon_open.png) no-repeat 0 0;
 }
-.files_list,.listItem{
+.files_list,
+.listItem {
   box-sizing: border-box;
   padding: 0 3%;
   overflow: auto;
@@ -149,23 +151,39 @@ export default {
   height: 100%;
 }
 .order_list li {
-  padding-top: 16px;
+  line-height: 38px;
   font-size: 14px;
   cursor: pointer;
 }
-.listWrap{
+.listWrap {
   display: flex;
   flex-direction: column;
   height: 86vh;
 }
-.order_list_detail .order_item{
-  padding-top: 16px;
+.order_list_detail .order_item {
+  line-height: 38px;
   font-size: 14px;
   cursor: pointer;
 }
-.order_detail_wrap{
+.order_detail_wrap {
   height: 45%;
   overflow: auto;
-  border-top: 1px solid slategray;
+  border-top: 4px solid slategray;
+}
+.order_detail_wrap {
+  box-sizing: border-box;
+  padding: 14px;
+}
+.order_detail_wrap p {
+  font-size: 14px;
+  padding-top: 12px;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.files_list li:hover,.order_list_detail li:hover{
+  background-color: #545c64;
+  color: white;
 }
 </style>

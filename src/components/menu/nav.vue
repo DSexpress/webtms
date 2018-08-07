@@ -25,6 +25,7 @@ active-text-color="#ffd04b">
     <el-menu-item-group>
       <el-menu-item index="/upload">订单上传 </el-menu-item>
       <el-menu-item index="/intellectOrder">订单分配</el-menu-item>
+      <el-menu-item index="/userManage">司机管理</el-menu-item>
     </el-menu-item-group>
   </el-submenu>
   <el-menu-item index="/statusOrder">
@@ -34,8 +35,8 @@ active-text-color="#ffd04b">
 </el-menu>
 <div class="others">
    <div class="username">
-     <img src="@/assets/bg.png" alt="">
-     <span v-show="!isCollapse">admin</span>
+     <img src="@/assets/emblemmatic-tms-logo.png" alt="">
+     <span v-show="!isCollapse">管理员</span>
    </div>
 </div>
 </div>

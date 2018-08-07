@@ -10,6 +10,8 @@ const intellectOrder = () =>
   import ('@/components/intellectOrder/index.vue'); //智能分单
 const upload = () =>
   import ('@/components/uploadOrder/index'); //订单分配
+const userManage = () =>
+  import ('@/components/driverManege/index'); //司机管理
 const login = () =>
   import ('@/components/login');
 Vue.use(Router)
@@ -43,6 +45,11 @@ let router = new Router({
           path: 'statusOrder',
           name: 'statusOrder',
           component: statusOrder
+        },
+        { //司机管理
+          path: 'userManage',
+          name: 'userManage',
+          component: userManage
         }
       ]
     },
