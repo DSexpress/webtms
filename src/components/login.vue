@@ -1,7 +1,7 @@
 <template>
     <div class="login_main">
      <div class="login_wrap">
-        <h1 style="margin-bottom:18px;">袋鼠物流跟踪管理系统</h1>
+        <h1 style="margin-bottom:18px;">袋鼠跟踪管理系统</h1>
         <el-input
             prefix-icon='el-icon-edit'
             class="login_input"
@@ -64,7 +64,7 @@ export default {
   border-radius: 8px;
 }
 .login_input {
-  width: 55%;
-  margin-top: 15px;
+  width: 55% !important;
+  margin-top: 15px !important;
 }
 </style>

@@ -1,12 +1,9 @@
 <template>
   <div class="map_wrap">
     <div id="container"></div>
-    <div class="float_wrap">
+    <!-- <div class="float_wrap">
       <el-button type="primary" @click="clearMap()">销毁</el-button>
-      <!-- <div class="readArea">
-        {{newArr}}
-      </div> -->
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -18,49 +15,49 @@ export default {
     return {
       map: {},
       newArr: [],
+      mass:{},//点
     };
   },
   methods: {
     renderMap() {
       this.map = new AMap.Map("container", {
-        zoom: 4, //级别
-        // center: [116.397428, 39.90923], //中心点坐标
+        zoom: 5, //级别
         resizeEnable: true
       });
-      this.map.on("moveend", this.getCity);
     },
     massMarker() {
       var that = this;
-      var mass = new AMap.MassMarks(that.newArr, {
+      that.mass = new AMap.MassMarks(that.newArr, {
         opacity: 0.8,
         zIndex: 111,
         cursor: "pointer",
         style: {
           url: "https://a.amap.com/jsapi_demos/static/images/mass0.png",
           anchor: new AMap.Pixel(6, 6),
-          size: new AMap.Size(11, 11)
+          size: new AMap.Size(20, 20)
         }
       });
       var marker = new AMap.Marker({ content: " ", map: that.map });
-      mass.on("mouseover", function(e) {
+       that.mass.on("mouseover", function(e) {
         marker.setPosition(e.data.lnglat);
         marker.setLabel({ content: e.data.address });
       });
-      mass.setMap(this.map);
+      that. mass.setMap(this.map);
     },
-    clearMap() {
-      bus.$emit("clear", "clearMap");
-      this.map.clearMap();
-    }
   },
   mounted() {
     this.renderMap();
+    var that  =this;
     bus.$on('getData',data=>{
+      // console.log(this.mass)
+      if (this.mass.CLASS_NAME) {
+        this.mass.clear();
+      }
+      this.newArr =[];
       this.newArr = data;
-      this.clearMap()
       this.massMarker();
     })
-    bus.$on("show", data => {});
+    // bus.$on("show", data => {});
   }
 };
 </script>

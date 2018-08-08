@@ -4,7 +4,7 @@
         <div class="table_wrap">
           <div class="tool_bar">
               <label for="">名称:</label>
-              <el-input label="名称" v-model="input" placeholder="请输入内容" clearable class="input"></el-input>
+              <el-input label="名称" v-model="userName" placeholder="请输入内容" clearable class="input"></el-input>
             <label for="" style="margin-left:18px;">状态:</label>
               <el-select v-model="statusValue" clearable placeholder="请选择" class="input">
                 <el-option
@@ -23,7 +23,7 @@
                 <td>序号</td>
                 <td>司机ID</td>
                 <td>账号名称</td>
-                <td>状态</td>
+                <td>密码</td>
                 <td>操作</td>
              </tr>
             </thead>
@@ -33,9 +33,9 @@
                 <tbody>
                     <tr v-for="(item,index) in dataArr" :key="index">
                       <td>{{index+1}}</td>
-                      <td>{{item.id}}</td>
-                      <td>{{item.userName}}</td>
-                      <td>{{item.status}}</td>
+                      <td>{{item.uid}}</td>
+                      <td>{{item.uname}}</td>
+                      <td>{{item.upwd}}</td>
                       <td>
                         <el-button type="primary" size="mini">编辑</el-button>
                         <el-button type="danger" size="mini"> 停用</el-button>
@@ -45,7 +45,7 @@
              </table>
             </div>
         </div>
-        <div class="pag">
+        <!-- <div class="pag">
         <el-pagination
          background
          @size-change="handleSizeChange"
@@ -56,27 +56,22 @@
          layout="total, sizes, prev, pager, next, jumper"
          :total="100">
         </el-pagination>
-        </div>
-        <overlay :close.sync="close">
-            <edit></edit>
+        </div> -->
+        <overlay :close.sync="close" title="新增司机">
+          <edit></edit>
         </overlay>
     </div>
 </template>
 
 <script>
+import bus from "@/assets/eventBus.js";
 import overlay from "@/components/common/overlay";
 import edit from "./editUser"
 export default {
   data() {
     return {
       close:false,
-      dataArr: [
-        {
-          id: "1234t2it82",
-          userName: "武汉划区司机",
-          status: 1
-        }
-      ],
+      dataArr: [],
       currentPage: 1,
       options: [
         {
@@ -93,15 +88,29 @@ export default {
         }
       ],
       statusValue:'',
+      userName:'',
     };
   },
   components:{overlay,edit},
+  created(){
+    this.getData();
+  },
   methods: {
     handleSizeChange() {},
-    handleCurrentChange() {}
+    handleCurrentChange() {},
+    getData(){
+      this.$http.get("/TMS/user/getAllUser?type=1").then(res=>{
+        if (res.data.status ===1) {
+          this.dataArr = res.data.data;
+        }
+      })
+    }
   },
   mounted() {
-    // this.spliceArr();
+    bus.$on("closeOverlay",data=>{
+      this.close=false;
+      this.getData();
+    })
   },
   watch: {
     data: {

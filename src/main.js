@@ -6,15 +6,18 @@ import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-
-//模拟数据,有接口后可以删除
-import order from "@/mock/order.js"
-import status from "@/mock/status.js"
-import newOrder from "@/mock/newOrder.js"
+import 'babel-polyfill'//兼容老版本浏览器
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
-// axios.defaults.baseURL = 'http://10.42.3.210:80'
+// axios.defaults.baseURL = 'http://192.168.3.14:8095'
+// axios.defaults.baseURL = '/api/'
+Vue.prototype.$http.get("serverconfig.json").then((result) => {
+  //用一个全局字段保存ApiUrl  也可以用sessionStorage存储
+  axios.defaults.baseURL = result.data.ApiUrl;
+}).catch((error) => {
+  axios.defaults.baseURL = "http://192.168.3.14:8095"
+});
 Vue.use(ElementUI);
 /* eslint-disable no-new */
 new Vue({

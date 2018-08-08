@@ -1,9 +1,9 @@
 <template>
   <div class="map_wrap">
     <div id="container"></div>
-    <div class="float_wrap">
+    <!-- <div class="float_wrap">
       <el-button type="primary" @click="clearMap()">销毁</el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 

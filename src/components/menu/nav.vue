@@ -11,7 +11,9 @@ text-color="#fff"
 active-text-color="#ffd04b">  
  <el-menu-item index=""  @click="isCollapse=!isCollapse;sendMsg()">
     <i :class="[isCollapse?'el-icon-d-arrow-right':'el-icon-d-arrow-left']"></i>
-    <span slot="title">logo</span>
+    <span slot="title" class="logo_img">
+      <img src="@/assets/img/favicon.png" alt="">
+    </span>
   </el-menu-item>
   <el-menu-item index="/">
     <i class="el-icon-news"></i>
@@ -103,5 +105,12 @@ export default {
   border-radius: 50%;
   overflow: hidden;
   vertical-align: middle;
+}
+.logo_img{
+  display: inline-block !important;
+  text-align: center;
+}
+.logo_img img{
+  width: 50px;
 }
 </style>

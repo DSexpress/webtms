@@ -22,20 +22,44 @@ export default {
     return {
       dataArr: [],
       value3: true,
-      dataArr:[]
+      dataArr: []
     };
   },
   components: { maps, order_table },
-  created(){
+  created() {
     this.mapGetData();
   },
-  methods:{
-    mapGetData() {//点击划区列表，获取数据，marker在地图上
-      this.$http.get("/tms/status").then(res => {
-        console.log(res.data)
-        this.dataArr = res.data;
-      });
-    },
+  methods: {
+    mapGetData() {
+      //点击划区列表，获取数据，marker在地图上
+      this.$http
+        .get("/TMS/order/getOrderList", {
+          params: {
+            pageSize: 1000,
+            pageNumber: 1,
+            orderId: 0
+          }
+        })
+        .then(res => {
+          if (res.data.status === 1) {
+            res.data.data.orderDatas.forEach(element => {
+              element.style = element.ostatus;
+              element.name = element.uname;
+            });
+            console.log(res.data.data.orderDatas[0])
+            this.dataArr = res.data.data.orderDatas;
+            // this.dataArr = [
+            //   {
+            //     lnglat: [116.258446, 37.686622],
+            //     name: "景县",
+            //     style: 2,
+            //     names:123
+            //   }
+            // ];
+            console.log(this.dataArr);
+          }
+        });
+    }
   }
 };
 </script>

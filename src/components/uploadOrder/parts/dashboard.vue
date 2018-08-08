@@ -3,34 +3,26 @@
       <div class="work_wrap" v-show="hidden">
         <div class="work_section">
             <div class="title">
-              <i class="el-icon-document"></i>订单列表 
+              <i class="el-icon-document"></i>订单列表 <i>总共{{totalNum}}条</i>
               <i @click="close=true" class="el-icon-upload right" style="margin-top:15px; cursor: pointer;"></i>
             </div>
             <div class="listWrap">
               <!-- orderFiles -->
-              <ul class="order_list files_list"  v-show="!showItem">
-                <li @click="mapGetData();showItem=true;" class="order_item"><i class="el-icon-tickets"></i>订单图层1</li>
-                <li class="order_item"><i class="el-icon-tickets"></i>订单图层2</li>
-                <li class="order_item"><i class="el-icon-tickets"></i>订单图层3</li>
-                <li class="order_item"><i class="el-icon-tickets"></i>订单图层4</li>
+              <ul class="order_list files_list">
+                <li v-for="(item,index) in orderList" :key="index"
+                 @click="showDetail=true;showDetailFun(item)" 
+                 :title="item.ostatus==2?'已划区':''"
+                 class="order_item" 
+                 :class="{hasColor:item.ostatus==2}">
+                 <i class="el-icon-tickets"></i>{{item.shgs}}</li>
               </ul>
-              <!-- orderList -->
-             <div class="listItem" v-show="showItem">
-              <h4 @click="showItem=false;showDetail=false">
-                <i class="el-icon-back"></i>订单图层1              
-              </h4>
-               <ul class="order_list_detail" >
-                  <li class="order_item" @click="showDetail=true"><i class="el-icon-tickets"></i>订单</li>
-                  <li class="order_item"><i class="el-icon-tickets"></i>订单</li>
-                  <li class="order_item"><i class="el-icon-tickets"></i>订单</li>
-                  <li class="order_item"><i class="el-icon-tickets"></i>订单</li>
-                </ul>
-             </div>
+              <p class="getMore" @click="getMore()" v-show="showMore">加载更多</p>
              <div class="order_detail_wrap" v-show="showDetail">
-               <p><span>所在订单：</span>订单图层1</p>
-               <p><span>区块名称：</span>无区划</p>
-               <p><span>经纬度：</span></p>
-               <p>订单地址：</p>
+               <p><i class="el-icon-close right" @click="showDetail=false"></i></p>
+               <p><span>收货人：</span>{{orderItem.oname}}</p>
+               <p><span>区块名称：</span>{{orderItem.shgs}}</p>
+               <p><span>经纬度：</span>{{orderItem.jd}},{{orderItem.wd}}</p>
+               <p>订单地址：{{orderItem.oaddress}}</p>
              </div>
             </div>             
         </div>
@@ -53,10 +45,31 @@ export default {
   data() {
     return {
       orderList: [],
+      orderItem: {}, //订单详情
+      totalNum: null,
       hidden: true,
       close: false,
       showItem: false,
-      showDetail: false
+      showDetail: false,
+      showMore: true,
+      pageIndex: 1,
+      pageSize: 50,
+      pageCountNum: null,
+      status: [
+        {
+          code: 1,
+          value: "未分配"
+        },
+        {
+          code: 2,
+          value: "已分配"
+        },
+        {
+          code: 3,
+          value: "已签收"
+        }
+      ],
+      codeValue: ""
     };
   },
   components: { overlay, files },
@@ -66,10 +79,25 @@ export default {
     },
     getOrderList() {
       this.$http
-        .get("TMS/jar/nanme")
+        .get("/TMS/order/getOrderList", {
+          params: {
+            pageSize: this.pageSize,
+            pageNumber: this.pageIndex,
+            orderId: 0
+          }
+        })
         .then(res => {
-          if (res) {
-            this.orderList = res;
+          if (res.data.status === 1) {
+            this.totalNum = res.data.data.countNum;
+            this.pageCountNum = res.data.data.pageCountNum;
+            var forMarkArr = [];
+            this.orderList = [...res.data.data.orderDatas];
+            this.orderList.forEach((item, index) => {
+              if (item.ostatus == 1) {
+                forMarkArr.push(item);
+              }
+            });
+            bus.$emit("forMark", forMarkArr);
           }
         })
         .catch(erro => {
@@ -81,23 +109,38 @@ export default {
           });
         });
     },
-    mapGetData() {
-      this.$http.get("/tms/order").then(res => {
-        console.log(res.data);
-        bus.$emit("forMark", res.data);
-      });
+    showDetailFun(item) {
+      this.orderItem = item;
+    },
+    getMore() {
+      this.pageIndex++;
+      if (this.pageIndex <= this.pageCountNum) {
+        this.getOrderList();
+      } else {
+        this.showMore = false;
+      }
     }
   },
   created() {
     this.getOrderList();
   },
   mounted() {
-    bus.$on("freshOrderList", data => {});
+    bus.$on("freshOrderList", data => {
+      this.pageIndex = 1;
+      this.getOrderList();
+      this.close = false;
+    });
   }
 };
 </script>
 
 <style>
+.getMore {
+  text-align: center;
+  color: #545c64;
+  margin-top: 18px;
+  cursor: pointer;
+}
 .title {
   box-sizing: border-box;
   padding: 0 3%;
@@ -182,8 +225,13 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.files_list li:hover,.order_list_detail li:hover{
+.files_list li:hover,
+.order_list_detail li:hover {
   background-color: #545c64;
   color: white;
+}
+.hasColor {
+  /* background-color: #545c64; */
+  color: #409EFF;
 }
 </style>

@@ -75,7 +75,6 @@ export default {
   watch: {
     'data': {
       handler: function(val, oldVal) {
-        console.log(111)
         this.massMarker();
       },
       deep: true

@@ -28,7 +28,6 @@ export default {
       var overlay = document.getElementsByClassName("overlay");
       for (let i = 0; i < overlay.length; i++) {
         overlay[i].onmousedown = function(e) {
-          console.log(11);
           var x = e.clientX;
           var y = e.clientY;
           var left = overlay[i].offsetLeft;

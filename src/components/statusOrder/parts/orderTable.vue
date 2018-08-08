@@ -19,15 +19,15 @@
                 <tbody>
                     <tr v-for="(item,index) in dataArr" :key="index">
                       <td width="28px">{{index+1}}</td>
-                      <td width="180px">201808021722{{index}}</td>
+                      <td width="180px">{{item.ono}}</td>
                       <td width="120px"></td>
-                      <td  width="220px">{{item.name}}</td>
+                      <td  width="220px">{{item.oaddress}}</td>
                       <td width="120px"></td>
                       <td>
                          <el-radio-group v-model="item.style" size="mini">
-                            <el-radio-button label="0">已签收</el-radio-button>
-                            <el-radio-button label="1" >运输中</el-radio-button>
-                            <el-radio-button label="2">揽件中</el-radio-button>
+                            <el-radio-button label="3">已签收</el-radio-button>
+                            <el-radio-button label="2" >运输中</el-radio-button>
+                            <el-radio-button label="1">揽件中</el-radio-button>
                          </el-radio-group>
                         </td>
                     </tr>
