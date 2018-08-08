@@ -84,7 +84,7 @@ export default {
     },
     marker(data, color) {
       for (var i = 0; i < data.length; i += 1) {
-        var center = [data[i].lnglat[0], data[i].lnglat[1]];
+        var center = [data[i].lnglat[1], data[i].lnglat[0]];
         this.circleMarker = new AMap.CircleMarker({
           center: center,
           radius: 10,
