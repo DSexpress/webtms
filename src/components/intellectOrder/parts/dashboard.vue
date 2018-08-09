@@ -8,7 +8,7 @@
               <li class="order_item" 
                 v-for="(item,index) in dataList"
                  :key="index"
-                 @click="mapGetData(item.qid);showItem=true;itemTitle=item.uname">
+                 @click="mapGetData(item.qid);showItem=true;itemTitle=item.uname;quId=item.qid">
                   <i class="el-icon-tickets"></i>
                   {{item.uname}}
               </li>
@@ -28,7 +28,7 @@
                 <i class="el-icon-tickets"></i>
                 {{item.shgs}}({{item.ostatus==2?"派送中":"已签收"}})
                 <i class="el-icon-edit-outline right" style="margin-top:12px;"
-                 @click.stop="close=true;orderId=item.oid"></i>
+                 @click.stop="clickStatus(item)"></i>
               </li>
             </ul>
           </div>
@@ -88,7 +88,8 @@ export default {
         unitNum: null,
         receiver: ""
       },
-      orderId: null
+      orderId: null,
+      quId:null,
     };
   },
   created() {
@@ -135,7 +136,8 @@ export default {
           )
           .then(res => {
             if (res.data.status === 1) {
-              this.close =false;
+              this.close = false;
+              this.mapGetData(this.quId);
               this.$notify({
                 title: "提示",
                 message: "订单状态已修改！",
@@ -155,6 +157,18 @@ export default {
     },
     hide() {
       bus.$emit("showNav", this.hidden);
+    },
+    clickStatus(item) {
+      if (item.ostatus != 3) {
+        this.close = true;
+        this.orderId = item.oid;
+      } else {
+        this.$message({
+          showClose: true,
+          message: "订单已签收！",
+          type: "warning"
+        });
+      }
     }
   }
 };
@@ -217,7 +231,7 @@ export default {
 }
 .hasColor {
   /* background-color: #545c64; */
-  color: #409EFF;
+  color: #409eff;
 }
 .close-arrow {
   position: absolute;
