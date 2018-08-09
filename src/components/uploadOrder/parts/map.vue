@@ -84,7 +84,7 @@ export default {
     },
     marker(data, color) {
       for (var i = 0; i < data.length; i += 1) {
-        var center = [data[i].lnglat[1], data[i].lnglat[0]];
+        var center = [data[i].lnglat[0], data[i].lnglat[1]];
         this.circleMarker = new AMap.CircleMarker({
           center: center,
           radius: 10,
@@ -133,7 +133,7 @@ export default {
       console.log(that.markArr);
       that.markArr.forEach((item, index) => {
         //选区在椭圆中的点，进行划区,将匹配到的订单移除，地图不再显示已经划区的订单
-        if (that.ellipse.contains([item.lnglat[1], item.lnglat[0]])) {
+        if (that.ellipse.contains([item.lnglat[0], item.lnglat[1]])) {
           // that.markArr.splice(index, 1)
           that.querys.push(item);
         }

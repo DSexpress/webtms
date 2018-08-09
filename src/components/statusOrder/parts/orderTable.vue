@@ -35,7 +35,7 @@
              </table>
             </div>
         </div>
-       <div class="pag">
+       <!-- <div class="pag">
         <el-pagination
          background
          @size-change="handleSizeChange"
@@ -46,7 +46,7 @@
          layout="total, sizes, prev, pager, next, jumper"
          :total="100">
         </el-pagination>
-        </div>
+        </div> -->
     </div>
 </template>
 

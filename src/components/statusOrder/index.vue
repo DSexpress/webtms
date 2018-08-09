@@ -48,14 +48,6 @@ export default {
             });
             console.log(res.data.data.orderDatas[0])
             this.dataArr = res.data.data.orderDatas;
-            // this.dataArr = [
-            //   {
-            //     lnglat: [116.258446, 37.686622],
-            //     name: "景县",
-            //     style: 2,
-            //     names:123
-            //   }
-            // ];
             console.log(this.dataArr);
           }
         });
