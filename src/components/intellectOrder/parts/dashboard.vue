@@ -62,7 +62,7 @@
           </el-form>
           <div class="btn_wrap">
             <el-button type="primary" @click="checkOrderStatus()">确认</el-button>
-              <el-button>取消</el-button>
+            <el-button @click="close=false;form={}">取消</el-button>
           </div>
         </div>
       </overlay>
@@ -135,6 +135,7 @@ export default {
           )
           .then(res => {
             if (res.data.status === 1) {
+              this.close =false;
               this.$notify({
                 title: "提示",
                 message: "订单状态已修改！",

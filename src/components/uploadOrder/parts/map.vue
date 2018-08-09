@@ -133,7 +133,7 @@ export default {
       console.log(that.markArr);
       that.markArr.forEach((item, index) => {
         //选区在椭圆中的点，进行划区,将匹配到的订单移除，地图不再显示已经划区的订单
-        if (that.ellipse.contains([item.lnglat[0], item.lnglat[1]])) {
+        if (that.ellipse.contains([item.lnglat[1], item.lnglat[0]])) {
           // that.markArr.splice(index, 1)
           that.querys.push(item);
         }
