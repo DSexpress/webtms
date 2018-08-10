@@ -36,7 +36,7 @@ active-text-color="#ffd04b">
   </el-menu-item>
 </el-menu>
 <div class="others">
-   <div class="username">
+   <div class="username" @click="quit()" title="退出">
      <img src="@/assets/emblemmatic-tms-logo.png" alt="">
      <span v-show="!isCollapse">管理员</span>
    </div>
@@ -62,6 +62,10 @@ export default {
     sendMsg() {
       console.log("click");
       bus.$emit("show", "Im from router");
+    },
+    quit(){
+      sessionStorage.removeItem("accessToken");
+       this.$router.push("/login");
     }
   },
   mounted() {
@@ -98,6 +102,7 @@ export default {
   box-sizing: border-box;
   padding: 10px;
   color: white;
+  cursor: pointer;
 }
 .username img{
   width: 38px;

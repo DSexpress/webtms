@@ -1,7 +1,7 @@
 <template>
     <div class="login_main">
      <div class="login_wrap">
-        <h1 style="margin-bottom:18px;">袋鼠跟踪管理系统</h1>
+        <h1 style="margin-bottom:18px;">袋鼠速运管理系统</h1>
         <el-input
             prefix-icon='el-icon-edit'
             class="login_input"
@@ -27,8 +27,8 @@ export default {
   data() {
     return {
       ruleForm2: {
-        username: "admin",
-        password: "123456"
+        username: "",
+        password: ""
       }
     };
   },
@@ -37,6 +37,15 @@ export default {
       //  XHR
       sessionStorage.setItem("accessToken", "1111111111");
       this.$router.push("/");
+      // if (this.ruleForm2.username =="admin"&&this.ruleForm2.password=="123456") {
+      //    sessionStorage.setItem("accessToken", "1111111111");
+      //    this.$router.push("/");
+      // }else{
+      //    this.$notify.error({
+      //     title: '错误',
+      //     message: '用户名密码或错误！'
+      //   });
+      // }
     }
   }
 };

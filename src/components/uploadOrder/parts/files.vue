@@ -5,9 +5,12 @@
 			    <input type="file" name="file" id="files" @change="onChange($event)" />
         </div>
         <div class="tips_wrap">
-          <p><span>格式说明：</span> 支持常见的.xls .xlsx .csv格式</p>
+          <p><span>格式说明：</span> 支持.xls格式的表格</p>
           <p><span>必填字段：</span> 数据中至少包含地址或者经纬度字段</p>
           <p><span>最大限制：</span> 文件大小不超过15M</p>
+          <p><span>下载标准样式：</span> 
+            <a class="downfile" :href="downUrl+'/TMS/file/orderMode.xls'" download="订单模板">示例数据下载————订单模板</a>
+          </p>
         </div>
     </div>
 </template>
@@ -18,6 +21,7 @@ export default {
   data(){
     return{
       loading:false,
+      downUrl:this.$a,
     }
   },
   methods: {
@@ -84,9 +88,11 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$a)
     this.$nextTick(() => {
       this.dragleave();
       this.drop();
+      
     });
   }
 };
@@ -128,6 +134,9 @@ export default {
   width: 100%;
   bottom: 0;
   left: 0;
+}
+.downfile{
+  color: #409eff !important;
 }
 .tips_wrap p{
   font-size: 12px;

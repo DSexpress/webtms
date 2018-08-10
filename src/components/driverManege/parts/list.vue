@@ -35,7 +35,7 @@
                       <td>{{index+1}}</td>
                       <td>{{item.uid}}</td>
                       <td>{{item.uname}}</td>
-                      <td>{{item.upwd}}</td>
+                      <td>{{ toStr(item.upwd)}}</td>
                       <td>
                         <el-button type="primary" size="mini">编辑</el-button>
                         <el-button type="danger" size="mini"> 停用</el-button>
@@ -104,7 +104,15 @@ export default {
           this.dataArr = res.data.data;
         }
       })
-    }
+    },
+    toStr(str){
+      var arr =[];
+      for (let index = 0; index < str.length; index++) {
+        arr.push("*")
+      }
+       arr = arr.join(' ');
+       return arr;
+    },
   },
   mounted() {
     bus.$on("closeOverlay",data=>{

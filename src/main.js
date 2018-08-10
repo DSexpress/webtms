@@ -15,8 +15,10 @@ Vue.prototype.$http = axios
 Vue.prototype.$http.get("serverconfig.json").then((result) => {
   //用一个全局字段保存ApiUrl  也可以用sessionStorage存储
   axios.defaults.baseURL = result.data.ApiUrl;
+  Vue.prototype.$a =result.data.ApiUrl;
 }).catch((error) => {
   axios.defaults.baseURL = "http://192.168.3.14:8095"
+  Vue.prototype.$a ="http://192.168.3.14:8095";
 });
 Vue.use(ElementUI);
 /* eslint-disable no-new */
