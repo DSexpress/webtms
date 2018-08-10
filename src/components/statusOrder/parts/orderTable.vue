@@ -7,9 +7,12 @@
              <tr>
                 <td width="28px">序号</td>
                 <td width="180px">订单号</td>
-                <td width="120px">货运司机</td>
-                <td width="220px">地点</td>
-                <td width="120px">预计到达时间</td>
+                <td width="100px">货运司机</td>
+                <td width="200px">地点</td>
+                <td width="120px">签收时间</td>
+                <td width="40px">散件签收数</td>
+                <td width="40px">整件签收数</td>
+                <td width="40px">总件数</td>
                 <td>操作</td>
              </tr>
             </thead>
@@ -20,9 +23,12 @@
                     <tr v-for="(item,index) in dataArr" :key="index">
                       <td width="28px">{{index+1}}</td>
                       <td width="180px">{{item.ono}}</td>
-                      <td width="120px"></td>
+                      <td width="120px">{{item.oshsj?item.oshsj:'-'}}</td>
                       <td  width="220px">{{item.oaddress}}</td>
                       <td width="120px"></td>
+                       <td width="40px">{{item.osjqss?item.osjqss:'-'}}</td>
+                      <td width="40px">{{item.ozjqss?item.ozjqss:'-'}}</td>
+                      <td width="40px">{{(item.ozjqss+item.osjqss)?(item.ozjqss+item.osjqss):'-'}}</td>
                       <td>
                          <el-radio-group v-model="item.style" size="mini">
                             <el-radio-button label="3">已签收</el-radio-button>
