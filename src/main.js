@@ -17,8 +17,8 @@ Vue.prototype.$http.get("serverconfig.json").then((result) => {
   axios.defaults.baseURL = result.data.ApiUrl;
   Vue.prototype.$a =result.data.ApiUrl;
 }).catch((error) => {
-  axios.defaults.baseURL = "http://192.168.3.14:8095"
-  Vue.prototype.$a ="http://192.168.3.14:8095";
+  axios.defaults.baseURL = "http://tms.fyyk.net"
+  Vue.prototype.$a ="http://tms.fyyk.net";
 });
 Vue.use(ElementUI);
 /* eslint-disable no-new */

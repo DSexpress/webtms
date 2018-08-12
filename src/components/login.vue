@@ -35,17 +35,22 @@ export default {
   methods: {
     Login() {
       //  XHR
-      sessionStorage.setItem("accessToken", "1111111111");
-      this.$router.push("/");
-      // if (this.ruleForm2.username =="admin"&&this.ruleForm2.password=="123456") {
-      //    sessionStorage.setItem("accessToken", "1111111111");
-      //    this.$router.push("/");
-      // }else{
-      //    this.$notify.error({
-      //     title: '错误',
-      //     message: '用户名密码或错误！'
-      //   });
-      // }
+      this.$http
+        .get("/TMS/admin/login?name=" + this.ruleForm2.username + "&pwd=" + this.ruleForm2.password)
+        .then(res => {
+          if (res.data.status === 1) {
+             sessionStorage.setItem("accessToken",res.data.data.aid);
+            sessionStorage.setItem("userName",res.data.data.aaccount);
+            this.$router.push("/");          
+          } else {
+            this.$notify.error({
+              title: "错误",
+              message: "登陆失败，用户名密码或错误！"
+            });
+          }
+        });
+      // sessionStorage.setItem("accessToken", "1111111111");
+      // this.$router.push("/")
     }
   }
 };

@@ -23,9 +23,9 @@
                     <tr v-for="(item,index) in dataArr" :key="index">
                       <td width="28px">{{index+1}}</td>
                       <td width="180px">{{item.ono}}</td>
-                      <td width="120px">{{item.oshsj?item.oshsj:'-'}}</td>
-                      <td  width="220px">{{item.oaddress}}</td>
-                      <td width="120px"></td>
+                      <td width="100px">{{item.oshsj?item.oshsj:'-'}}</td>
+                      <td  width="200px">{{item.oaddress}}</td>
+                      <td width="120px">{{item.oqssj?item.oqss:'-'}}</td>
                        <td width="40px">{{item.osjqss?item.osjqss:'-'}}</td>
                       <td width="40px">{{item.ozjqss?item.ozjqss:'-'}}</td>
                       <td width="40px">{{(item.ozjqss+item.osjqss)?(item.ozjqss+item.osjqss):'-'}}</td>

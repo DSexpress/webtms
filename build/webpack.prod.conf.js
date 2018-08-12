@@ -15,7 +15,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 var GenerateAssetPlugin = require('generate-asset-webpack-plugin');
 var createServerConfig = function (compilation) {
   let cfgJson = {
-    ApiUrl: "http://192.168.3.14:8095"
+    ApiUrl: "http://tms.fyyk.net"
   };
   return JSON.stringify(cfgJson);
 }

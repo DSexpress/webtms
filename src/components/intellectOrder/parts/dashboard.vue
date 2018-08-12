@@ -144,6 +144,13 @@ export default {
                 duration: 1500,
                 type: "success"
               });
+            }else{
+               this.$notify({
+                title: "提示",
+                message: res.data.error,
+                duration: 1500,
+                type: "error"
+              });
             }
           });
       } else {

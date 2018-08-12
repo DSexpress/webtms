@@ -66,7 +66,7 @@ export default {
         this.loading=true;
         this.$http
           .get(
-            "TMS//user/addUser?userName=" +
+            "/TMS/user/addUser?userName=" +
               this.ruleForm2.uesrName +
               "&pwd=" +
               this.ruleForm2.pass
