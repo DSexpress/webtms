@@ -1,5 +1,6 @@
 <template>
-    <div class="upload_main" id="drag_wrap"   v-loading.fullscreen.lock="loading">
+    <div class="upload_main" id="drag_wrap">
+      <div class="upLoad_con" v-show="!showPro">
         <div class="file_btn_wrap">
           <label for="files" id="filesLoad">点击或拖拽上传订单</label>
 			    <input type="file" name="file" id="files" @change="onChange($event)" />
@@ -12,29 +13,45 @@
             <a class="downfile" :href="downUrl+'/TMS/file/orderMode.xls'" download="订单模板">示例数据下载————订单模板</a>
           </p>
         </div>
+      </div>      
+      <div class="progress_con" v-show="showPro">
+        <ul class="proList">
+          <li v-for="(item,index) of fileArr" :key="index" v-if="item.file.type">
+            <span class="file_name">{{item.file.name}}</span>
+            <el-progress :text-inside="true" :stroke-width="18" :percentage="item.pre" class="progress"></el-progress>
+          </li>
+        </ul>
+      </div>
     </div>
 </template>
 
 <script>
 import bus from "@/assets/eventBus.js";
 export default {
-  data(){
-    return{
-      loading:false,
-      downUrl:this.$a,
-    }
+  data() {
+    return {
+      downUrl: this.$a,
+      progress: 0,
+      jindu: 0,
+      showPro: false,
+      fileArr: []
+    };
   },
   methods: {
-    uploadFiles(data) {
-      this.loading=true;
+    uploadFiles(data, index) {
+      this.showPro = true;
       let config = {
+        onUploadProgress: progressEvent => {
+          console.log(progressEvent.loaded); //进度值
+          var complete = (progressEvent.loaded / progressEvent.total * 100) | 0;
+          this.fileArr[index].pre = complete;
+        },
         headers: { "Content-Type": "multipart/form-data" }
       }; //添加请求头
       this.$http
         .post("/TMS/uploadfiles/uploadfileOrder", data, config)
         .then(res => {
           if (res.data.status === 1) {
-             this.loading=false;
             bus.$emit("freshOrderList", "runing");
             this.$notify({
               title: "提示",
@@ -43,7 +60,6 @@ export default {
               type: "success"
             });
           } else {
-            this.loading=false;
             this.$notify({
               title: "提示",
               message: "上传失败！",
@@ -54,10 +70,17 @@ export default {
         });
     },
     onChange(event) {
+      this.fileArr = [];
       if (event.target.files[0]) {
-        var fd = new FormData();
-        fd.append("file", event.target.files[0]);
-        this.uploadFiles(fd);
+        this.fileArr.push({
+          file: event.target.files[0],
+          pre: 0
+        });
+        this.fileArr.forEach((item, index) => {
+          var fd = new FormData();
+          fd.append("file", item.file);
+          this.uploadFiles(fd, index);
+        });
       }
     },
     dragleave() {
@@ -74,25 +97,33 @@ export default {
     },
     drop() {
       var that = this;
+      that.fileArr = [];
       drag_wrap.addEventListener("drop", function(e) {
         e.preventDefault();
         if (e.dataTransfer.files.length) {
-          // e.dataTransfer.files;
+          console.log(e.dataTransfer.files);
           for (const item in e.dataTransfer.files) {
-            var fd = new FormData();
-            fd.append("file", e.dataTransfer.files[item]);
-            that.uploadFiles(fd);
+            that.fileArr.push({
+              file: e.dataTransfer.files[item],
+              pre: 0
+            });
           }
+          console.log(that.fileArr);
+          that.fileArr.forEach((item, index) => {
+            if (item.file.name) {
+              var fd = new FormData();
+              fd.append("file", item.file);
+              that.uploadFiles(fd, index);
+            }
+          });
         }
       });
     }
   },
   mounted() {
-    console.log(this.$a)
     this.$nextTick(() => {
       this.dragleave();
       this.drop();
-      
     });
   }
 };
@@ -107,11 +138,26 @@ export default {
   border-radius: 4px;
   position: relative;
 }
+.progress_con {
+  box-sizing: border-box;
+  padding: 20px;
+}
+.proList li {
+  margin-top: 12px;
+}
+.proList .progress {
+  display: inline-block;
+  width: 50%;
+  text-indent: 34px;
+}
 .file_btn_wrap {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.file_name {
+  display: inline-block;
 }
 #filesLoad {
   display: inline-block;
@@ -129,21 +175,21 @@ export default {
 #files {
   display: none;
 }
-.tips_wrap{
+.tips_wrap {
   position: absolute;
   width: 100%;
   bottom: 0;
   left: 0;
 }
-.downfile{
+.downfile {
   color: #409eff !important;
 }
-.tips_wrap p{
+.tips_wrap p {
   font-size: 12px;
   line-height: 28px;
-  margin:0 20%;
+  margin: 0 20%;
 }
-.tips_wrap p span{
-  color: #C1C1C1;
+.tips_wrap p span {
+  color: #c1c1c1;
 }
 </style>

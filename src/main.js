@@ -11,15 +11,15 @@ import 'babel-polyfill'//兼容老版本浏览器
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 // axios.defaults.baseURL = 'http://192.168.3.14:8095'
-// axios.defaults.baseURL = '/api/'
-Vue.prototype.$http.get("serverconfig.json").then((result) => {
-  //用一个全局字段保存ApiUrl  也可以用sessionStorage存储
-  axios.defaults.baseURL = result.data.ApiUrl;
-  Vue.prototype.$a =result.data.ApiUrl;
-}).catch((error) => {
-  axios.defaults.baseURL = "http://tms.fyyk.net"
-  Vue.prototype.$a ="http://tms.fyyk.net";
-});
+axios.defaults.baseURL = '/api/'
+// Vue.prototype.$http.get("serverconfig.json").then((result) => {
+//   //用一个全局字段保存ApiUrl  也可以用sessionStorage存储
+//   axios.defaults.baseURL = result.data.ApiUrl;
+//   Vue.prototype.$a =result.data.ApiUrl;
+// }).catch((error) => {
+//   axios.defaults.baseURL = "http://tms.fyyk.net"
+//   Vue.prototype.$a ="http://tms.fyyk.net";
+// });
 Vue.use(ElementUI);
 /* eslint-disable no-new */
 new Vue({

@@ -128,7 +128,7 @@ export default {
     bus.$on("freshOrderList", data => {
       this.pageIndex = 1;
       this.getOrderList();
-      this.close = false;
+      // this.close = false;
     });
   }
 };
