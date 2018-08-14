@@ -27,17 +27,22 @@
           </el-form>
         </div>
       </overlay>
+      <overlay :close.sync="close1" title="新增司机">
+        <addDriver></addDriver>
+      </overlay>
   </div>
 </template>
 
 <script>
 import bus from "@/assets/eventBus.js";
 import overlay from "@/components/common/overlay";
+import addDriver from "@/components/driverManege/parts/editUser"
 export default {
   name: "HelloWorld",
   data() {
     return {
       close: false,
+      close1:false,
       showTips: false,
       tipPos: {
         left: 0,
@@ -66,7 +71,7 @@ export default {
       }
     };
   },
-  components: { overlay },
+  components: { overlay,addDriver },
   created() {
     this.getDriver();
   },
@@ -223,8 +228,8 @@ export default {
         that.showTips = false;
       });
     },
+     //司机列表
     getDriver() {
-      //司机列表
       this.$http.get("/TMS/user/getAllUser?type=2").then(res => {
         if (res.data.status === 1) {
           this.userArr = res.data.data;
@@ -240,7 +245,8 @@ export default {
           type: "warning"
         })
           .then(() => {
-            this.$router.push("/userManage")
+            // this.$router.push("/userManage")
+            this.close1 =true;
           })
           .catch(() => {
             this.$message({
@@ -268,7 +274,11 @@ export default {
     });
     this.renderMap();
     this.getCenter();
-    // this.Ellipse();
+    // this.Ellipse()
+     bus.$on("closeOverlay",data=>{
+       this.close1 =false;
+       this.getDriver();
+     });
     bus.$on("show", data => {
       console.log("导航到订单上传");
     });

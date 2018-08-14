@@ -15,31 +15,45 @@
         </div>
       </div>      
       <div class="progress_con" v-show="showPro">
+        <i class="el-icon-back file_back" @click="goback()" title="返回"></i>
         <ul class="proList">
           <li v-for="(item,index) of fileArr" :key="index" v-if="item.file.type">
             <span class="file_name">{{item.file.name}}</span>
-            <el-progress :text-inside="true" :stroke-width="18" :percentage="item.pre" class="progress"></el-progress>
+            <el-progress :text-inside="true" :stroke-width="18" :percentage="item.pre" class="progress" :color="item.color"></el-progress>
           </li>
         </ul>
       </div>
+      <overlay :close.sync="close" title="错误信息">
+        <div  class="upload_main errorCon">
+          <p v-for="(item,index) of erroArr" :key="index">
+            {{item}}
+          </p>
+        </div>
+      </overlay>
     </div>
 </template>
 
 <script>
 import bus from "@/assets/eventBus.js";
+import overlay from "@/components/common/overlay";
 export default {
   data() {
     return {
+      close: false,
       downUrl: this.$a,
       progress: 0,
       jindu: 0,
       showPro: false,
-      fileArr: []
+      fileArr: [], //文件集合
+      erroArr: [] //错误信息集合
     };
   },
+  components: { overlay },
   methods: {
+    // 文件上传
     uploadFiles(data, index) {
       this.showPro = true;
+      this.erroArr=[];
       let config = {
         onUploadProgress: progressEvent => {
           console.log(progressEvent.loaded); //进度值
@@ -52,29 +66,40 @@ export default {
         .post("/TMS/uploadfiles/uploadfileOrder", data, config)
         .then(res => {
           if (res.data.status === 1) {
-            bus.$emit("freshOrderList", "runing");
-            this.$notify({
-              title: "提示",
-              message: "上传成功！",
-              duration: 1500,
-              type: "success"
-            });
+             console.log(res.data.impResponse[0].failImpComName)
+            if (res.data.impResponse[0].failImpComName) {
+             
+              this.close =true;
+              this.erroArr=[...res.data.impResponse[0].failImpComName]
+              console.log(this.erroArr)
+            } else {
+              bus.$emit("freshOrderList", "runing");
+              this.$notify({
+                title: "提示",
+                message: "上传成功！",
+                duration: 1500,
+                type: "success"
+              });
+            }
           } else {
+            this.fileArr[index].color="#f56c6c"
             this.$notify({
               title: "提示",
-              message: "上传失败！",
+              message: res.data.error,
               duration: 1500,
               type: "warning"
             });
           }
         });
     },
+    // 点击上传单个文件
     onChange(event) {
       this.fileArr = [];
       if (event.target.files[0]) {
         this.fileArr.push({
           file: event.target.files[0],
-          pre: 0
+          pre: 0,
+          color:"#409eff"
         });
         this.fileArr.forEach((item, index) => {
           var fd = new FormData();
@@ -95,6 +120,7 @@ export default {
         e.preventDefault();
       });
     },
+    // 拖拽上传多个文件
     drop() {
       var that = this;
       that.fileArr = [];
@@ -108,9 +134,9 @@ export default {
               pre: 0
             });
           }
-          console.log(that.fileArr);
           that.fileArr.forEach((item, index) => {
             if (item.file.name) {
+              //拖拽上传
               var fd = new FormData();
               fd.append("file", item.file);
               that.uploadFiles(fd, index);
@@ -118,6 +144,11 @@ export default {
           });
         }
       });
+    },
+    // 返回上传文件操作区
+    goback() {
+      this.showPro = false;
+      this.fileArr = [];
     }
   },
   mounted() {
@@ -137,6 +168,16 @@ export default {
   border: 1px dashed slategray;
   border-radius: 4px;
   position: relative;
+}
+.errorCon{
+   width: 480px;
+  height: 450px;
+  overflow: auto;
+}
+.file_back {
+  font-size: 20px;
+  color: #409eff;
+  cursor: pointer;
 }
 .progress_con {
   box-sizing: border-box;
