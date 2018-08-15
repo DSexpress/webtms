@@ -96,6 +96,7 @@ export default {
           that.$http.get("/TMS//data/deleteAll").
             then(res => {
               if (res.data.status === 1) {
+                window.location.reload();
                 that.$message({
                   type: "success",
                   message: "数据已清空!"

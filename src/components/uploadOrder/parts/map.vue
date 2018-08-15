@@ -27,7 +27,7 @@
           </el-form>
         </div>
       </overlay>
-      <overlay :close.sync="close1" title="新增司机">
+      <overlay :close.sync="close1" title="新增司机" >
         <addDriver></addDriver>
       </overlay>
   </div>

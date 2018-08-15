@@ -23,10 +23,10 @@
           </li>
         </ul>
       </div>
-      <overlay :close.sync="close" title="错误信息">
+      <overlay :close.sync="close" title="错误信息" >
         <div  class="upload_main errorCon">
           <p v-for="(item,index) of erroArr" :key="index">
-            {{item}}
+            {{index+1}}.{{item}}
           </p>
         </div>
       </overlay>
@@ -66,12 +66,10 @@ export default {
         .post("/TMS/uploadfiles/uploadfileOrder", data, config)
         .then(res => {
           if (res.data.status === 1) {
-             console.log(res.data.impResponse[0].failImpComName)
-            if (res.data.impResponse[0].failImpComName) {
-             
+            //  console.log(res.data.impResponse[0].failImpComName)
+            if (res.data.impResponse[0].failImpComName) {            
               this.close =true;
               this.erroArr=[...res.data.impResponse[0].failImpComName]
-              console.log(this.erroArr)
             } else {
               bus.$emit("freshOrderList", "runing");
               this.$notify({
@@ -82,6 +80,7 @@ export default {
               });
             }
           } else {
+            // this.close =true;
             this.fileArr[index].color="#f56c6c"
             this.$notify({
               title: "提示",
@@ -131,7 +130,8 @@ export default {
           for (const item in e.dataTransfer.files) {
             that.fileArr.push({
               file: e.dataTransfer.files[item],
-              pre: 0
+              pre: 0,
+              color:"#409eff"
             });
           }
           that.fileArr.forEach((item, index) => {
@@ -182,6 +182,13 @@ export default {
 .progress_con {
   box-sizing: border-box;
   padding: 20px;
+}
+.errorCon p{
+  color: #f56c6c;
+  font-size: 14px;
+  line-height: 30px;
+  margin: 0 28px;
+  text-indent: 25px;
 }
 .proList li {
   margin-top: 12px;

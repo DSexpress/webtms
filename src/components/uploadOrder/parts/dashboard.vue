@@ -100,14 +100,6 @@ export default {
             bus.$emit("forMark", forMarkArr);
           }
         })
-        .catch(erro => {
-          this.$notify({
-            title: "提示",
-            message: "未知异常！",
-            duration: 1500,
-            type: "error"
-          });
-        });
     },
     showDetailFun(item) {
       this.orderItem = item;
