@@ -24,7 +24,10 @@
         </ul>
       </div>
       <overlay :close.sync="close" title="错误信息" >
+       
         <div  class="upload_main errorCon">
+           <p><span>导入数量：</span> {{impObj.total}}</p>
+            <p><span>错误数量：</span> {{impObj.errorNum}}</p>
           <p v-for="(item,index) of erroArr" :key="index">
             {{index+1}}.{{item}}
           </p>
@@ -45,7 +48,11 @@ export default {
       jindu: 0,
       showPro: false,
       fileArr: [], //文件集合
-      erroArr: [] //错误信息集合
+      erroArr: [], //错误信息集合
+      impObj: {
+        total: null,
+        errorNum: null
+      }
     };
   },
   components: { overlay },
@@ -53,7 +60,6 @@ export default {
     // 文件上传
     uploadFiles(data, index) {
       this.showPro = true;
-      this.erroArr=[];
       let config = {
         onUploadProgress: progressEvent => {
           console.log(progressEvent.loaded); //进度值
@@ -67,21 +73,28 @@ export default {
         .then(res => {
           if (res.data.status === 1) {
             //  console.log(res.data.impResponse[0].failImpComName)
-            if (res.data.impResponse[0].failImpComName) {            
-              this.close =true;
-              this.erroArr=[...res.data.impResponse[0].failImpComName]
+            bus.$emit("freshOrderList", "runing");
+            this.$notify({
+              title: "提示",
+              message:
+                "成功导入" +
+                res.data.impResponse[0].sussCount +
+                "条，导入失败" +
+                res.data.impResponse[0].failCount +
+                "条",
+              duration: 3000,
+              type: "success"
+            });
+            if (res.data.impResponse[0].failImpComName) {
+              this.close = true;
+              this.erroArr = [...res.data.impResponse[0].failImpComName];
+              this.impObj.total = res.data.impResponse[0].sussCount;
+              this.impObj.errorNum = res.data.impResponse[0].failCount;
             } else {
-              bus.$emit("freshOrderList", "runing");
-              this.$notify({
-                title: "提示",
-                message: "上传成功！",
-                duration: 1500,
-                type: "success"
-              });
             }
           } else {
             // this.close =true;
-            this.fileArr[index].color="#f56c6c"
+            this.fileArr[index].color = "#f56c6c";
             this.$notify({
               title: "提示",
               message: res.data.error,
@@ -94,11 +107,12 @@ export default {
     // 点击上传单个文件
     onChange(event) {
       this.fileArr = [];
+      this.erroArr = [];
       if (event.target.files[0]) {
         this.fileArr.push({
           file: event.target.files[0],
           pre: 0,
-          color:"#409eff"
+          color: "#409eff"
         });
         this.fileArr.forEach((item, index) => {
           var fd = new FormData();
@@ -123,6 +137,7 @@ export default {
     drop() {
       var that = this;
       that.fileArr = [];
+      this.erroArr = [];
       drag_wrap.addEventListener("drop", function(e) {
         e.preventDefault();
         if (e.dataTransfer.files.length) {
@@ -131,7 +146,7 @@ export default {
             that.fileArr.push({
               file: e.dataTransfer.files[item],
               pre: 0,
-              color:"#409eff"
+              color: "#409eff"
             });
           }
           that.fileArr.forEach((item, index) => {
@@ -169,9 +184,9 @@ export default {
   border-radius: 4px;
   position: relative;
 }
-.errorCon{
-   width: 480px;
-  height: 450px;
+.errorCon {
+  width: 480px;
+  height: 400px;
   overflow: auto;
 }
 .file_back {
@@ -183,12 +198,13 @@ export default {
   box-sizing: border-box;
   padding: 20px;
 }
-.errorCon p{
+.errorCon p {
   color: #f56c6c;
   font-size: 14px;
   line-height: 30px;
-  margin: 0 28px;
-  text-indent: 25px;
+  margin: 0 15px;
+  text-indent: 16px;
+  border-bottom: 1px dashed slategray;
 }
 .proList li {
   margin-top: 12px;

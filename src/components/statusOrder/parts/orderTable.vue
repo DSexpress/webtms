@@ -68,7 +68,7 @@ export default {
   methods: {
     spliceArr() {
       this.data.forEach((element, index) => {
-        if (index < 50) {
+        if (index < 50) {//没做分页，暂时只显示50条
           this.dataArr.push(element);
         }
       });
